@@ -17,6 +17,16 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "vixrmw45w4");
   </script>
+  <script>
+    const EVENT_CONFIG = {
+      eventType: 'Getting Married',
+      date: 'May 1, 2026, Monday',
+      time: '10:40 AM',
+      venue: 'JSR Function Hall, Miryalaguda',
+      venueUrl: 'https://maps.app.goo.gl/EzJ5Q9DyEa68DofN6',
+      youtubeLink: '' // Add YouTube live stream URL here (e.g., 'https://youtube.com/watch?v=...')
+    };
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sowmya & Rakesh — Together Forever</title>
@@ -93,8 +103,9 @@
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
-      transition: color 0.3s;
+      transition: all 0.3s;
       position: relative;
+      padding: 0.5rem 0;
     }
 
     nav a::after {
@@ -225,6 +236,13 @@
       border-bottom: 2px solid var(--gold);
       transform: rotate(45deg);
       animation: bounceDown 1.5s ease-in-out infinite;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scroll-arrow:hover {
+      border-color: var(--burgundy);
+      transform: rotate(45deg) translateY(4px);
     }
 
     @keyframes bounceDown {
@@ -241,7 +259,8 @@
 
     .section-title {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
+      animation: fadeInDown 0.8s ease;
     }
 
     .section-title h2 {
@@ -249,6 +268,8 @@
       font-size: clamp(2rem, 4vw, 3rem);
       color: var(--burgundy);
       font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
     }
 
     .section-title .ornament {
@@ -262,18 +283,19 @@
     .section-title .ornament span {
       color: var(--gold);
       font-size: 1.2rem;
+      animation: pulse 2s ease-in-out infinite;
     }
 
     .section-title .ornament::before,
     .section-title .ornament::after {
       content: '';
-      width: 60px; height: 1px;
-      background: var(--gold);
+      width: 80px; height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
 
     /* Our Story */
     .story {
-      background: linear-gradient(180deg, var(--cream) 0%, #fff 50%, var(--cream) 100%);
+      background: #fff;
     }
 
     .story-content {
@@ -287,7 +309,13 @@
       line-height: 2;
       color: var(--text-soft);
       margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
     }
+
+    .story-content p:nth-child(1) { animation-delay: 0.2s; }
+    .story-content p:nth-child(2) { animation-delay: 0.4s; }
+    .story-content p:nth-child(3) { animation-delay: 0.6s; }
 
     .story-content .highlight {
       color: var(--burgundy);
@@ -321,7 +349,7 @@
 
     /* Timeline */
     .timeline-section {
-      background: var(--cream-dark);
+      background: linear-gradient(180deg, var(--cream-dark) 0%, #fff 100%);
     }
 
     .timeline {
@@ -353,6 +381,11 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    .timeline-item:nth-child(1).visible { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2).visible { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3).visible { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4).visible { animation-delay: 0.4s; }
 
     .timeline-item:nth-child(odd) { flex-direction: row; }
     .timeline-item:nth-child(even) { flex-direction: row-reverse; }
@@ -386,6 +419,7 @@
       color: var(--burgundy);
       font-size: 1.2rem;
       margin-bottom: 0.3rem;
+      letter-spacing: 0.5px;
     }
 
     .timeline-content .date {
@@ -393,7 +427,8 @@
       color: var(--gold);
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
     }
 
     .timeline-content p {
@@ -402,9 +437,15 @@
       line-height: 1.7;
     }
 
+    .timeline-content:hover {
+      box-shadow: 0 8px 32px rgba(107,39,55,0.1);
+      transform: translateY(-4px);
+      transition: all 0.3s ease;
+    }
+
     /* Qualities / Love Notes */
     .love-notes {
-      background: linear-gradient(180deg, var(--cream) 0%, #fff 100%);
+      background: linear-gradient(180deg, #fff 0%, var(--cream) 100%);
     }
 
     .notes-grid {
@@ -425,11 +466,27 @@
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .note-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .note-card.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .note-card:hover::before {
+      opacity: 1;
     }
 
     .note-card:hover {
@@ -477,13 +534,204 @@
       line-height: 2;
       color: rgba(255,255,255,0.9);
       margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
     }
+
+    .promise-content p:nth-child(1) { animation-delay: 0.2s; }
+    .promise-content p:nth-child(2) { animation-delay: 0.4s; }
+    .promise-content p:nth-child(3) { animation-delay: 0.6s; }
 
     .promise-signature {
       margin-top: 2.5rem;
       font-family: 'Great Vibes', cursive;
       font-size: 2.5rem;
       color: var(--gold-light);
+    }
+
+    /* Wedding Details Section */
+    .wedding-details {
+      background: var(--cream);
+      position: relative;
+      z-index: 1;
+    }
+
+    .details-container {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .youtube-card {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), rgba(107, 39, 55, 0.05));
+      padding: 2.5rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 2rem;
+      border: 2px solid var(--gold-light);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .youtube-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .youtube-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 12px 40px rgba(201, 168, 76, 0.2);
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.12), rgba(107, 39, 55, 0.08));
+    }
+
+    .youtube-card .youtube-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .youtube-card h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--burgundy);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .youtube-card p {
+      font-size: 1rem;
+      color: var(--text-soft);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .youtube-link {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+      color: #fff;
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .youtube-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(107, 39, 55, 0.3);
+      background: linear-gradient(135deg, var(--burgundy-light), var(--burgundy));
+    }
+
+    .detail-card {
+      background: #fff;
+      padding: 2.5rem;
+      border-bottom: 1px solid var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    .detail-card:last-child {
+      border-bottom: none;
+    }
+
+    .detail-card.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .detail-card:hover {
+      background: linear-gradient(135deg, rgba(201,168,76,0.05), rgba(107,39,55,0.02));
+    }
+
+    .detail-card .detail-icon {
+      font-size: 3.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(107,39,55,0.08));
+      border-radius: 50%;
+    }
+
+    .detail-card-content {
+      flex: 1;
+    }
+
+    .detail-card .detail-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .detail-card .detail-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--burgundy);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .detail-card .detail-description {
+      font-size: 1rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .venue-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+      padding: 0.7rem 1.6rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--text-dark);
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .venue-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(201,168,76,0.3);
+    }
+
+    @media (max-width: 600px) {
+      .detail-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .detail-card .detail-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 3rem;
+      }
+
+      .detail-card .detail-value {
+        font-size: 1.3rem;
+      }
     }
 
     /* Footer */
@@ -507,13 +755,16 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       color: var(--text-soft);
+      margin-bottom: 1rem;
+      line-height: 1.8;
     }
 
     footer .footer-names {
       font-family: 'Great Vibes', cursive;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: var(--burgundy);
-      margin-top: 0.5rem;
+      margin-top: 1rem;
+      letter-spacing: 1px;
     }
 
     /* Animations */
@@ -557,14 +808,14 @@
   <nav>
     <a href="#home">Home</a>
     <a href="#story">Our Story</a>
+    <a href="#details">Details</a>
     <a href="#journey">Journey</a>
-    <a href="#love">Love Notes</a>
     <a href="#promise">Promise</a>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <p class="hero-pre">We're Getting Engaged</p>
+    <p class="hero-pre" id="eventType">We're Getting Married</p>
     <div class="hero-ornament"></div>
     <h1 class="hero-names">
       Sowmya <span class="ampersand">&</span> Rakesh
@@ -578,7 +829,7 @@
     </div>
 
     <div class="scroll-hint">
-      <span>Discover Our Story</span>
+      <span>Scroll to Discover Our Story</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
@@ -615,6 +866,49 @@
       <div class="story-quote">
         <p>"I stacked small moments like stars until destiny drew the picture exactly when it should."</p>
         <cite>— The Universe, probably</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wedding Details -->
+  <section class="wedding-details" id="details">
+    <div class="section-title">
+      <h2>Wedding Details</h2>
+      <div class="ornament"><span>♥</span></div>
+    </div>
+
+    <div class="details-container">
+      <div class="youtube-card" id="youtubeCard" style="display: none;">
+        <span class="youtube-icon">📺</span>
+        <h3>Watch Live</h3>
+        <p>Join us virtually for our special day</p>
+        <a class="youtube-link" id="youtubeLink" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+      </div>
+      <div class="detail-card">
+        <span class="detail-icon">🗓️</span>
+        <div class="detail-card-content">
+          <div class="detail-label">Wedding Date</div>
+          <div class="detail-value" id="eventDate"></div>
+          <div class="detail-description">Mark your calendar for our special day</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-icon">⏰</span>
+        <div class="detail-card-content">
+          <div class="detail-label">Ceremony Time</div>
+          <div class="detail-value" id="eventTime"></div>
+          <div class="detail-description">Join us as we begin our forever</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-icon">📍</span>
+        <div class="detail-card-content">
+          <div class="detail-label">Venue</div>
+          <div class="detail-value" id="eventVenue"></div>
+          <a class="venue-link" id="venueLink" target="_blank" rel="noopener noreferrer">View on Map</a>
+        </div>
       </div>
     </div>
   </section>
@@ -669,51 +963,6 @@
     </div>
   </section>
 
-  <!-- Love Notes -->
-  <section class="love-notes" id="love">
-    <div class="section-title">
-      <h2>Why We Feel Lucky</h2>
-      <div class="ornament"><span>♥</span></div>
-    </div>
-
-    <div class="notes-grid">
-      <div class="note-card">
-        <div class="note-icon">👶</div>
-        <h3>Known Since Forever</h3>
-        <p>Most couples have a "how we met" story. Ours is simple — we didn't meet. We just always were. Family first, best friends by fate, partners by destiny.</p>
-      </div>
-
-      <div class="note-card">
-        <div class="note-icon">🐱🐭</div>
-        <h3>Tom & Jerry Energy</h3>
-        <p>We tease each other about everything — habits, friends, personality, the way we talk, the way we don't. It's chaos. It's us. And we wouldn't trade it for anything quiet.</p>
-      </div>
-
-      <div class="note-card">
-        <div class="note-icon">👨‍👩‍👧‍👦</div>
-        <h3>Family Knew Best</h3>
-        <p>When our families suggested we could be more than what we were, it felt surprising — and then immediately obvious. Sometimes the people who love you see your heart before you do.</p>
-      </div>
-
-      <div class="note-card">
-        <div class="note-icon">😂</div>
-        <h3>Roasts Over Romance</h3>
-        <p>Flowers and poetry? Maybe later. Right now, it's savage comebacks and laughing until it hurts. Our love language is teasing — and we're both fluent.</p>
-      </div>
-
-      <div class="note-card">
-        <div class="note-icon">🤍</div>
-        <h3>Care Behind the Chaos</h3>
-        <p>For every fight, there was a quiet moment of care. For every roast, a gentle check-in. We fought like Tom and Jerry, but we always, always had each other's back.</p>
-      </div>
-
-      <div class="note-card">
-        <div class="note-icon">✨</div>
-        <h3>Lucky Is an Understatement</h3>
-        <p>To find love in someone who already knows your worst childhood stories, your most annoying habits, and still says yes? That's not luck. That's a miracle.</p>
-      </div>
-    </div>
-  </section>
 
   <!-- Promise -->
   <section class="promise" id="promise">
@@ -724,21 +973,19 @@
 
     <div class="promise-content">
       <p>
-        We promise to keep fighting — over silly things, over who's right
-        (it's always her), over whose turn it is to apologize first. Because
-        our fights were never about anger. They were always about caring
-        too much to stay silent.
+        We promise to cherish the bond we've built over a lifetime of shared moments,
+        to support each other through every chapter of our lives, and to grow together
+        as partners, friends, and soulmates.
       </p>
       <p>
-        We promise to keep teasing, keep laughing, and keep being the
-        perfectly imperfect Tom and Jerry we've always been. But now,
-        with rings on our fingers and a lifetime to fill with new
-        arguments and even better make-ups.
+        We promise to honor the love and trust our families have placed in us,
+        to build a home filled with laughter, compassion, and unwavering commitment,
+        and to face life's journey with courage and devotion.
       </p>
       <p>
-        From family to life partners — this isn't just an engagement.
-        This is destiny finally catching up with what our families
-        always knew and what our hearts took a little longer to admit.
+        From childhood companions to life partners — this is the beginning of forever.
+        We stand here today, grateful for the path that led us to this moment,
+        ready to write the next chapter of our story together.
       </p>
 
       <div class="promise-signature">Sowmya & Rakesh</div>
@@ -748,11 +995,30 @@
   <!-- Footer -->
   <footer>
     <span class="footer-heart">♥</span>
-    <p>From childhood fights to forever — here's to the greatest plot twist of our lives.</p>
-    <div class="footer-names">Sowmya & Rakesh — Forever</div>
+    <p>Thank you for being part of our journey. We look forward to celebrating this special moment with you.</p>
+    <div class="footer-names">Sowmya & Rakesh</div>
   </footer>
 
   <script>
+    // Populate event details from config
+    function initializeEventDetails() {
+      document.getElementById('eventType').textContent = `We're ${EVENT_CONFIG.eventType}`;
+      document.getElementById('eventDate').textContent = EVENT_CONFIG.date;
+      document.getElementById('eventTime').textContent = EVENT_CONFIG.time;
+      document.getElementById('eventVenue').textContent = EVENT_CONFIG.venue;
+      document.getElementById('venueLink').href = EVENT_CONFIG.venueUrl;
+
+      // Handle YouTube live stream card
+      const youtubeCard = document.getElementById('youtubeCard');
+      const youtubeLink = document.getElementById('youtubeLink');
+      if (EVENT_CONFIG.youtubeLink && EVENT_CONFIG.youtubeLink.trim() !== '') {
+        youtubeCard.style.display = 'block';
+        youtubeLink.href = EVENT_CONFIG.youtubeLink;
+      } else {
+        youtubeCard.style.display = 'none';
+      }
+    }
+
     // Create floating hearts
     (function createHearts() {
       const container = document.getElementById('floatingHearts');
@@ -778,10 +1044,24 @@
       });
     }, { threshold: 0.2 });
 
-    document.querySelectorAll('.timeline-item, .note-card').forEach(el => {
+    document.querySelectorAll('.timeline-item, .note-card, .detail-card, .youtube-card').forEach(el => {
       observer.observe(el);
     });
 
+    // Make scroll arrow clickable
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeEventDetails();
+      
+      const scrollArrow = document.querySelector('.scroll-arrow');
+      if (scrollArrow) {
+        scrollArrow.addEventListener('click', function() {
+          const storySection = document.getElementById('story');
+          if (storySection) {
+            storySection.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
