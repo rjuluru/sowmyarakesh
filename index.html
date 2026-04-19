@@ -275,7 +275,6 @@
 
     /* Events Section */
     .events {
-      background: linear-gradient(180deg, var(--cream-dark) 0%, #fff 50%, var(--cream-dark) 100%);
       padding: 8rem 2rem !important;
     }
 
@@ -454,11 +453,16 @@
       font-weight: 600;
     }
 
-    /* Streaming Section */
-    .streaming {
-      background: linear-gradient(180deg, var(--cream) 0%, #fff 50%, var(--cream) 100%);
+    /* Section alternating backgrounds */
+    .section-bg-a {
+      background: linear-gradient(180deg, var(--cream-dark) 0%, #fff 50%, var(--cream-dark) 100%);
     }
 
+    .section-bg-b {
+      background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 50%, var(--cream) 100%);
+    }
+
+    /* Streaming Section */
     .streaming-container {
       max-width: 900px;
       margin: 0 auto;
@@ -531,7 +535,6 @@
 
     /* Slideshow Section */
     .slideshow-section {
-      background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
       padding: 6rem 2rem;
     }
 
@@ -590,10 +593,6 @@
     }
 
     /* Gallery Section */
-    .gallery-section {
-      background: linear-gradient(180deg, var(--cream) 0%, #fff 50%, var(--cream) 100%);
-    }
-
     .gallery-tabs {
       display: flex;
       justify-content: center;
@@ -653,6 +652,31 @@
       grid-column: 1 / -1;
     }
 
+    .gallery-show-more {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .gallery-show-more button {
+      padding: 0.8rem 2.5rem;
+      border: 2px solid var(--gold);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+
+    .gallery-show-more button:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
     /* Lightbox */
     .lightbox {
       display: none;
@@ -687,6 +711,40 @@
       background: none;
       border: none;
       line-height: 1;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: #fff;
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      z-index: 1001;
+      line-height: 1;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.7);
+    }
+
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+
+    @media (max-width: 600px) {
+      .lightbox-nav { width: 40px; height: 40px; font-size: 1.5rem; }
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
     }
 
     /* Footer */
@@ -736,10 +794,6 @@
     }
 
     /* Videos Section */
-    .videos-section {
-      background: linear-gradient(180deg, var(--cream) 0%, #fff 50%, var(--cream) 100%);
-    }
-
     .videos-container {
       max-width: 900px;
       margin: 0 auto;
@@ -870,7 +924,9 @@
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
     <img id="lightboxImg" src="" alt="Photo" />
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
   </div>
 
   <!-- Footer -->
@@ -1045,6 +1101,21 @@
       renderGallery();
       renderFooter();
       setupLightbox();
+      applyAlternatingBackgrounds();
+    }
+
+    function applyAlternatingBackgrounds() {
+      const sectionIds = ['slideshow', 'events', 'streaming', 'gallery', 'videos'];
+      let bgIndex = 0;
+      sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('section-bg-a', 'section-bg-b');
+        if (el.style.display !== 'none') {
+          el.classList.add(bgIndex % 2 === 0 ? 'section-bg-a' : 'section-bg-b');
+          bgIndex++;
+        }
+      });
     }
 
     /* ── Hero ── */
@@ -1260,6 +1331,8 @@
 
     /* ── Gallery ── */
     let currentGalleryImages = [];
+    let galleryVisibleCount = 20;
+    let currentLightboxIndex = -1;
 
     function renderGallery() {
       const g = config.gallery;
@@ -1323,36 +1396,79 @@
       }
 
       currentGalleryImages = images;
+      galleryVisibleCount = 20;
 
       if (images.length === 0) {
         grid.innerHTML = '<div class="gallery-empty">Photos coming soon</div>';
         return;
       }
 
-      images.forEach((src, idx) => {
+      renderGalleryImages();
+    }
+
+    function renderGalleryImages() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+      const images = currentGalleryImages;
+      const visible = Math.min(galleryVisibleCount, images.length);
+
+      for (let idx = 0; idx < visible; idx++) {
         const img = document.createElement('img');
-        img.src = src;
+        img.src = images[idx];
         img.alt = 'Gallery photo';
         img.loading = 'lazy';
-        img.onclick = () => openLightbox(src);
+        img.onclick = ((i) => () => openLightbox(i))(idx);
         grid.appendChild(img);
-      });
+      }
+
+      if (visible < images.length) {
+        const moreDiv = document.createElement('div');
+        moreDiv.className = 'gallery-show-more';
+        const remaining = images.length - visible;
+        const btn = document.createElement('button');
+        btn.textContent = `Show More (${remaining} remaining)`;
+        btn.onclick = () => {
+          galleryVisibleCount += 10;
+          renderGalleryImages();
+        };
+        moreDiv.appendChild(btn);
+        grid.appendChild(moreDiv);
+      }
     }
 
     /* ── Lightbox ── */
     function setupLightbox() {
       const lb = document.getElementById('lightbox');
-      document.getElementById('lightboxClose').onclick = () => lb.classList.remove('active');
-      lb.onclick = (e) => { if (e.target === lb) lb.classList.remove('active'); };
+      document.getElementById('lightboxClose').onclick = () => closeLightbox();
+      lb.onclick = (e) => { if (e.target === lb) closeLightbox(); };
+      document.getElementById('lightboxPrev').onclick = (e) => { e.stopPropagation(); navigateLightbox(-1); };
+      document.getElementById('lightboxNext').onclick = (e) => { e.stopPropagation(); navigateLightbox(1); };
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') lb.classList.remove('active');
+        if (!lb.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
       });
     }
 
-    function openLightbox(src) {
+    function openLightbox(index) {
       const lb = document.getElementById('lightbox');
-      document.getElementById('lightboxImg').src = src;
+      currentLightboxIndex = index;
+      document.getElementById('lightboxImg').src = currentGalleryImages[index];
+      document.getElementById('lightboxPrev').style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
+      document.getElementById('lightboxNext').style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
       lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      currentLightboxIndex = -1;
+    }
+
+    function navigateLightbox(dir) {
+      if (currentGalleryImages.length === 0 || currentLightboxIndex < 0) return;
+      currentLightboxIndex = (currentLightboxIndex + dir + currentGalleryImages.length) % currentGalleryImages.length;
+      document.getElementById('lightboxImg').src = currentGalleryImages[currentLightboxIndex];
     }
 
     /* ── Footer ── */
@@ -1378,15 +1494,29 @@
     }
 
     function startCountdown(dateStr, timeStr) {
-      function update() {
-        let targetStr = dateStr;
+      function parseTarget(dateStr, timeStr) {
+        const parts = dateStr.split('-');
+        let year = parseInt(parts[0], 10);
+        let month = parseInt(parts[1], 10) - 1;
+        let day = parseInt(parts[2], 10);
+        let hours = 0, minutes = 0;
         if (timeStr) {
-          const t = timeStr.replace(/\s*(AM|PM)/i, ' $1');
-          targetStr = dateStr + ' ' + t;
+          const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+          if (match) {
+            hours = parseInt(match[1], 10);
+            minutes = parseInt(match[2], 10);
+            const ampm = match[3].toUpperCase();
+            if (ampm === 'PM' && hours !== 12) hours += 12;
+            if (ampm === 'AM' && hours === 12) hours = 0;
+          }
         }
+        return new Date(year, month, day, hours, minutes, 0).getTime();
+      }
+      const target = parseTarget(dateStr, timeStr);
+      function update() {
         const now = Date.now();
-        const target = new Date(targetStr).getTime();
         const dist = target - now;
+        if (isNaN(dist)) return;
 
         if (dist < 0) {
           const timer = document.getElementById('countdownTimer');
